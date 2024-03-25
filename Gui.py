@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageTk
+import cv2
 
 class TextDetectionApp:
     def __init__(self, master):
@@ -49,7 +50,38 @@ class TextDetectionApp:
 
     def detect_text(self, image):
         # Placeholder for text detection (replace this with your actual neural network code)
+        text_regions = self.extract_text_regions(image)
+
+        # Sort each row of pixels and group them into letters
+        sorted_letters = []
+        for region in text_regions:
+            sorted_row = [sorted(row) for row in region]  # Sort each row of pixels
+            sorted_letters.append(sorted_row)
+
+        # Flatten the sorted letters into a 1D list
+        flat_sorted_letters = np.concatenate(sorted_letters)
+
+        # Feed each letter to your trained model for inference (replace this with your inference code)
         return "Detected text will appear here"
+
+    def extract_text_regions(self, image):
+        # Convert image to grayscale using OpenCV
+        grayscale_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+
+        # Apply thresholding to extract text regions using OpenCV
+        _, thresholded_image = cv2.threshold(grayscale_image, 128, 255, cv2.THRESH_BINARY_INV)
+
+        # Perform connected component analysis to identify text regions using OpenCV
+        num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(thresholded_image, connectivity=8)
+
+        # Extract text regions based on connected component analysis results
+        text_regions = []
+        for i in range(1, num_labels):
+            x, y, w, h, _ = stats[i]
+            text_region = image.crop((x, y, x + w, y + h))
+            text_regions.append(text_region)
+
+        return text_regions
 
 def main():
     root = tk.Tk()

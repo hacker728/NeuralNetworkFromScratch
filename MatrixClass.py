@@ -1,4 +1,5 @@
 import numpy as np
+import math
 class Matrix:
     def __init__(self,Matrix):
         # Checking if all values are numeric.
@@ -81,7 +82,7 @@ class Matrix:
 
         for i in range(self.rows):
             for j in range(self.cols):
-                result_matrix[i][j] = e ** (self.Matrix[i][j])
+                result_matrix[i][j] = math.e ** (self.Matrix[i][j])
         return Matrix(result_matrix)
 
     def Transpose(self):
@@ -147,8 +148,6 @@ class Matrix:
                 row.append(func(self.Matrix[i][j]))
             result.append(row)
         return Matrix(result)
-
-
 
 
 

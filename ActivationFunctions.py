@@ -39,21 +39,13 @@ class SoftmaxActivation:
         pass
 
     def forward(self, inputs: Matrix) -> Matrix:
-        # Calculate exponentials of inputs element-wise
-        exp_inputs = inputs.apply_function(lambda x: np.exp(x))
+        exp_values = inputs.exponenentiate()
+        sum = exp_values.SumAlongCols()
+        result = exp_values.ToNumpyArray() / sum
+        return Matrix(result)
 
-        # Calculate the sum of exponentials for each row
-        sum_exp = exp_inputs.SumAlongRows()
 
-        # Divide each element by the sum of exponentials for normalization
-        probabilitites = exp_inputs
-        for i in range(probabilitites.rows):
-            row = probabilitites.Matrix[i]
-            for j in range(probabilitites.cols):
-                value = probabilitites.Matrix[i][j]
-                probabilitites.Matrix[i][j] = value / sum_exp[i]
 
-        return probabilitites
 
 
 

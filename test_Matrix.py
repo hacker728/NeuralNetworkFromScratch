@@ -1,5 +1,6 @@
 import unittest
 from MatrixClass import Matrix
+import math
 
 class test_matrix(unittest.TestCase):
     def setUp(self):
@@ -29,6 +30,32 @@ class test_matrix(unittest.TestCase):
         result = self.MatrixA.ScalarMultiply(2)
         expected_result = Matrix([[2, 4, 6], [8, 10, 12],[14, 16, 18]])
         self.assertEqual(result,expected_result,"Matrix scalar multiplication failed")
+
+    def test_exponential(self):
+        result = self.MatrixA.exponenentiate()
+        expected_result = Matrix([[math.e**(1), math.e**(2), math.e**(3)],
+                                  [math.e**(4), math.e**(5), math.e**(6)],
+                                  [math.e**(7), math.e**(8), math.e**(9)]])
+        self.assertEqual(result, expected_result, "Matrix exponentiation failed")
+
+    def test_sum_along_rows(self):
+        result = self.MatrixA.SumAlongRows()
+        expected_result = [6, 15, 24]
+        self.assertEqual(result, expected_result, "Sum along rows failed")
+
+    def test_sum_along_cols(self):
+        result = self.MatrixA.SumAlongCols()
+        expected_result = [12, 15, 18]
+        self.assertEqual(result, expected_result, "Sum along columns failed")
+
+    def test_apply_function(self):
+        def square(x):
+            return x ** 2
+
+        result = self.MatrixA.apply_function(square)
+        expected_result = Matrix([[1, 4, 9], [16, 25, 36], [49, 64, 81]])
+        self.assertEqual(result, expected_result, "Applying function to matrix elements failed")
+
 
 if __name__ == '__main__':
     unittest.main()

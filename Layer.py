@@ -10,7 +10,7 @@ class FullyConnectedLayer():
         self.inputs = inputs
         return self.weights.LeftMultiply(inputs).Add(self.bias)
     def backprop(self,Outputgradient :Matrix,learning_rate: float):
-        # Output gradient is the derivative of the error with respect to the biases.
+        # Output gradient is the derivative of the error with respect to the output of the layer.
         # Learning rate is the fraction of the gradients by which we nudge the hyperparameters.
         ErrorByWeightsGradient = Outputgradient.LeftMultiply(self.inputs.Transpose())
         # This is the derivative of the error with respect to weights.
@@ -20,23 +20,6 @@ class FullyConnectedLayer():
         # This is the derivative of error with respect to the inputs.
         return self.weights.Transpose().LeftMultiply(Outputgradient)
 
-# layer1 = FullyConnectedLayer(3,2)
-# layer1.weights.Print()
-# print("           ")
-# layer1.bias.Print()
-# print("           ")
-# inputs = Matrix( [  [0.1], [0.2], [0.3] ]  )
-# layeroutput = layer1.forward(inputs)
-# activation1 = Activation_ReLu()
-# activation1.forward(layeroutput)
-# print("                 ")
-# activation1.output.Print()
-# # let our Output gradient be [ [0.1],[0.1] ]
-# OutputGradient = Matrix([ [0.1],[0.1] ])
-# print("           ")
-# layer1.backprop(OutputGradient,0.01)
-# layer1.weights.Print()
-# print("           ")
-# layer1.bias.Print()
+
 
 
